@@ -1,0 +1,23 @@
+[
+  {
+    "idEmp": "098701",
+    "name": "Kautsar Al Bana",
+    "email": "kautsar@email.com",
+    "major": "Software Enginering",
+    "idTeacher": 1
+  },
+  {
+    "idEmp": "098702",
+    "name": "Tobias Vincensius",
+    "email": "tobi@email.com",
+    "major": "Software Enginering",
+    "idTeacher": 2
+  },
+  {
+    "idEmp": "098703",
+    "name": "Budi Doremi",
+    "email": "budi@email.com",
+    "major": "Technical Computer",
+    "idTeacher": 3
+  }
+]

@@ -35,7 +35,7 @@
 }); */
 
 // Fetch = mereturn Promise
-const searchButton = document.querySelector(".search-button");
+/* const searchButton = document.querySelector(".search-button");
 searchButton.addEventListener("click", function () {
   const inputKeyword = document.querySelector(".input-keyword");
   fetch("http://www.omdbapi.com/?apikey=326d4e7b&s=" + inputKeyword.value)
@@ -69,7 +69,53 @@ searchButton.addEventListener("click", function () {
         });
       });
     });
+}); */
+
+// Refactoring Fetch with async and await
+const searchButton = document.querySelector(".search-button");
+// Memberitahu bahwa ada function yang async
+searchButton.addEventListener("click", async function () {
+  const inputKeyword = document.querySelector(".input-keyword");
+  // Menentukan function yang mana yang menggunakan async
+  const movies = await getMovies(inputKeyword.value);
+  // console.log(movies);
+  updateUI(movies);
 });
+
+// Event binding (memberi event ke elemen yang belum ada)
+document.addEventListener("click", async function (e) {
+  if (e.target.classList.contains("modal-detail-button")) {
+    // console.log("ok");
+    const imdbid = e.target.dataset.imdbid;
+    const movieDetail = await getMovieDetail(imdbid);
+    updateUIDetail(movieDetail);
+  }
+});
+
+function getMovieDetail(imdbid) {
+  return fetch("http://www.omdbapi.com/?apikey=326d4e7b&i=" + imdbid)
+    .then((response) => response.json())
+    .then((md) => md);
+}
+
+function updateUIDetail(md) {
+  const movieDetail = showMovieDetail(md);
+  const modalBody = document.querySelector(".modal-body");
+  modalBody.innerHTML = movieDetail;
+}
+
+function getMovies(keyword) {
+  return fetch("http://www.omdbapi.com/?apikey=326d4e7b&s=" + keyword)
+    .then((response) => response.json())
+    .then((response) => response.Search);
+}
+
+function updateUI(movies) {
+  let cards = "";
+  movies.forEach((m) => (cards += showCards(m)));
+  const movieContainer = document.querySelector(".movie-container");
+  movieContainer.innerHTML = cards;
+}
 
 function showCards(m) {
   return `<div class="col-md-4 my-3">

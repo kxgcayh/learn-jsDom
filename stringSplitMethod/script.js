@@ -1,49 +1,42 @@
-function splitIt(value) {
-  console.log(this);
-  var res = value.split(" ");
-  // $("#ChqNumber").val(res[0]);
-  const input1 = document.getElementById("inputOne");
-  input1.value(res[0]);
-  // $("#BSB").val(res[1]);
-  const input2 = document.getElementById("inputTwo");
-  input2.value(res[1]);
-  // $("#AcctNumber").val(res[2]);
-  const input3 = document.getElementById("inputThree");
-  input3.value(res[2]);
+/* Cheque Reader Result:
+o24581997 o032d854t600210107o 9
+o002265 o082d691 50976d7765o
+o102443 o112d879 063560793o
+o002754o 062d201  0048d0177o
+*/
+// Enable Tooltip
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});
 
-  // var question = confirm(`Is ${input1} ok?`);
-  // let txt;
-  // if (question == true) {
-  //   txt = input1 + " " + input2 + " " + input3;
-  // } else {
-  //   txt = "Value is invalid";
-  // }
+// Get Input Box Cheque Reader
+const formScanner = document.getElementById("chqReader");
+// Add keyup function to formScanner
+formScanner.addEventListener("keyup", scanResult);
+// Get Form Input on Nodelist
+const formInput = document.querySelectorAll(".form-input");
+// Convert Nodelist to Array
+let formInputArr = Array.from(formInput);
 
-  // swalWithBootstrapButtons
-  //   .fire({
-  //     title: "AmountPldg : " + amountplg.toString() + "<br>Is this correct?",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonText: "Yes",
-  //     cancelButtonText: "No",
-  //     reverseButtons: false,
-  //   })
-  //   .then((result) => {
-  //     console.log("result", result);
-  //     if (result.value) {
-  //       updateData();
-  //       // swalWithBootstrapButtons.fire(
-  //       //     'Deleted!',
-  //       //     'Your file has been deleted.',
-  //       //     'success'
-  //       // );
-  //     } else if (
-  //       /* Read more about handling dismissals below */
-  //       result.dismiss === Swal.DismissReason.cancel
-  //     ) {
-  //       $("#ChqNumber").val(ChqNumber);
-  //       $("#BSB").val(BSB);
-  //       $("#AcctNumber").val(AcctNumber);
-  //     }
-  //   });
+function scanResult() {
+  try {
+    const scannedValue = this.value;
+    var result = scannedValue.split(" ");
+    return getInputValue(result);
+  } catch (error) {
+    return null;
+  }
+}
+
+function getInputValue(resultScan) {
+  for (let i = 0; i < formInputArr.length; i++) {
+    resultScan[i];
+  }
+  return insertInputValue(resultScan);
+}
+
+function insertInputValue(res) {
+  for (let i = 0; i < formInputArr.length; i++) {
+    formInput[i].value = res[i].replace(/\D/g, "");
+  }
 }

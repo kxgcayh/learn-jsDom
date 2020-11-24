@@ -1,36 +1,21 @@
-// Enable Tooltip
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip();
-});
+/* Dom Selection  Part 1*/
+// document.getElementById() -> elemnt
+const title = document.getElementById("judul");
+title.style.color = "white";
+title.style.backgroundColor = "gray";
+title.innerHTML = "Hello Kautsar";
 
-// Get Input Box Cheque Reader
-const formScanner = document.getElementById("chqReader");
-// Add keyup function to formScanner
-formScanner.addEventListener("keyup", scanResult);
-// Get Form Input on Nodelist
-const formInput = document.querySelectorAll(".form-input");
-// Convert Nodelist to Array
-let formInputArr = Array.from(formInput);
-
-function scanResult() {
-  try {
-    const scannedValue = this.value;
-    var result = scannedValue.split(" ");
-    return getInputValue(result);
-  } catch (error) {
-    return null;
-  }
+// document.getElementsByTagName -> HTMLCollections
+const p = document.getElementsByTagName("p");
+let blueLight = "lightblue";
+for (let i = 0; i < p.length; i++) {
+  p[i].style.backgroundColor = blueLight;
 }
 
-function getInputValue(resultScan) {
-  for (let i = 0; i < formInputArr.length; i++) {
-    resultScan[i];
-  }
-  return insertInputValue(resultScan);
-}
+// Convert HTMLCollections to Element by defined specific index
+const h1 = document.getElementsByTagName("h1")[0];
+h1.style.fontSize = "25px";
 
-function insertInputValue(res) {
-  for (let i = 0; i < formInputArr.length; i++) {
-    formInput[i].value = res[i].replace(/\D/g, "");
-  }
-}
+// document.getElemetsByClassName -> HTMLCollections
+const p1 = document.getElementsByClassName("p1");
+p1[0].innerHTML = "This text changed by Javascript";

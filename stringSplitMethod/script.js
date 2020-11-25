@@ -1,9 +1,3 @@
-/* Cheque Reader Result:
-o24581997 o032d854t600210107o 9
-o002265 o082d691 50976d7765o
-o102443 o112d879 063560793o
-o002754o 062d201  0048d0177o
-*/
 // Enable Tooltip
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
@@ -12,31 +6,62 @@ $(function () {
 // Get Input Box Cheque Reader
 const formScanner = document.getElementById("chqReader");
 // Add keyup function to formScanner
-formScanner.addEventListener("keyup", scanResult);
+formScanner.addEventListener("keyup", chequeReader);
 // Get Form Input on Nodelist
 const formInput = document.querySelectorAll(".form-input");
 // Convert Nodelist to Array
 let formInputArr = Array.from(formInput);
 
-function scanResult() {
+for (let i = 0; i < formInput.length; i++) {
+  formInput[i].addEventListener("keyup", chequeReader);
+}
+
+function reload() {
+  window.location.reload();
+  formInputArr[0].value = "";
+  formInputArr[1].value = "";
+  formInputArr[2].value = "";
+}
+
+function chequeReader() {
   try {
     const scannedValue = this.value;
-    var result = scannedValue.split(" ");
-    return getInputValue(result);
+    let result = scannedValue.split(" ");
+    return splitedValue(result);
   } catch (error) {
     return null;
   }
 }
 
-function getInputValue(resultScan) {
+function splitedValue(result) {
   for (let i = 0; i < formInputArr.length; i++) {
-    resultScan[i];
+    result[i];
   }
-  return insertInputValue(resultScan);
+  return getDigitOnly(result);
 }
 
-function insertInputValue(res) {
-  for (let i = 0; i < formInputArr.length; i++) {
-    formInput[i].value = res[i].replace(/\D/g, "");
+function getDigitOnly(res) {
+  let frmInput1 = formInputArr[0];
+  let frmInput2 = formInputArr[1];
+  let frmInput3 = formInputArr[2];
+
+  const resLth = [];
+  for (let i = 0; i < res.length; i++) {
+    resLth[i] = res[i].replace(/\D/g, "").length;
+  }
+  // Get Digit Only
+  frmInput1.value = res[0].replace(/\D/g, "");
+
+  if (res[1].includes("t")) {
+    // alert('ok');
+    resX = res[1].split("t");
+    frmInput2.value = resX[0].replace(/\D/g, "");
+    frmInput3.value = resX[1].replace(/\D/g, "");
+  } else {
+    frmInput2.value = res[1].replace(/\D/g, "");
+    frmInput3.value = res[2].replace(/\D/g, "");
+  }
+
+  if (res[2].length <= 2) {
   }
 }

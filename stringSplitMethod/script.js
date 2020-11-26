@@ -4,7 +4,7 @@ $(function () {
 });
 
 // Get Input Box Cheque Reader
-const formScanner = document.getElementById("chqReader");
+const formScanner = document.getElementById("stCheque");
 // Add keyup function to formScanner
 formScanner.addEventListener("keyup", chequeReader);
 // Get Form Input on Nodelist
@@ -18,6 +18,7 @@ for (let i = 0; i < formInput.length; i++) {
 
 function reload() {
   window.location.reload();
+  formScanner.value = "";
   formInputArr[0].value = "";
   formInputArr[1].value = "";
   formInputArr[2].value = "";
@@ -26,42 +27,25 @@ function reload() {
 function chequeReader() {
   try {
     const scannedValue = this.value;
-    let result = scannedValue.split(" ");
-    return splitedValue(result);
+    const trimValue = scannedValue.replace(/\s/g, "");
+
+    // Declare Separator
+    let firstValue = trimValue.search("o");
+    let secondValue = trimValue.indexOf("o", firstValue + 1);
+    let thirdValue = trimValue.indexOf("t", secondValue);
+
+    let input1 = trimValue.substr(firstValue, secondValue + 1);
+    let input2 = trimValue.substr(input1.length, thirdValue - input1.length);
+    let input3 = trimValue.substr(thirdValue, trimValue.length);
+
+    const form1Value = input1.replace(/\D/g, "");
+    const form2Value = input2.replace(/\D/g, "");
+    const form3Value = input3.replace(/\D/g, "");
+    // Insert into Input Box 1
+    formInputArr[0].value = form1Value;
+    formInputArr[1].value = form2Value;
+    formInputArr[2].value = form3Value;
   } catch (error) {
     return null;
-  }
-}
-
-function splitedValue(result) {
-  for (let i = 0; i < formInputArr.length; i++) {
-    result[i];
-  }
-  return getDigitOnly(result);
-}
-
-function getDigitOnly(res) {
-  let frmInput1 = formInputArr[0];
-  let frmInput2 = formInputArr[1];
-  let frmInput3 = formInputArr[2];
-
-  const resLth = [];
-  for (let i = 0; i < res.length; i++) {
-    resLth[i] = res[i].replace(/\D/g, "").length;
-  }
-  // Get Digit Only
-  frmInput1.value = res[0].replace(/\D/g, "");
-
-  if (res[1].includes("t")) {
-    // alert('ok');
-    resX = res[1].split("t");
-    frmInput2.value = resX[0].replace(/\D/g, "");
-    frmInput3.value = resX[1].replace(/\D/g, "");
-  } else {
-    frmInput2.value = res[1].replace(/\D/g, "");
-    frmInput3.value = res[2].replace(/\D/g, "");
-  }
-
-  if (res[2].length <= 2) {
   }
 }

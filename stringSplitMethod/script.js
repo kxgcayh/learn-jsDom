@@ -26,25 +26,27 @@ function reload() {
 
 function chequeReader() {
   try {
+    // Get Cheque Reader Inputbox Value
     const scannedValue = this.value;
+    // Trim Cheque Reader Value
     const trimValue = scannedValue.replace(/\s/g, "");
 
     // Declare Separator
-    let firstValue = trimValue.search("o");
-    let secondValue = trimValue.indexOf("o", firstValue + 1);
-    let thirdValue = trimValue.indexOf("t", secondValue);
+    let firstO = trimValue.search("o");
+    let secondO = trimValue.indexOf("o", firstO + 1);
+    let firstT = trimValue.indexOf("t", secondO);
 
-    let input1 = trimValue.substr(firstValue, secondValue + 1);
-    let input2 = trimValue.substr(input1.length, thirdValue - input1.length);
-    let input3 = trimValue.substr(thirdValue, trimValue.length);
+    let bsb = trimValue.substr(firstO, secondO + 1);
+    let acctNum = trimValue.substr(bsb.length, firstT - bsb.length);
+    let cheque = trimValue.substr(firstT, trimValue.length);
 
-    const form1Value = input1.replace(/\D/g, "");
-    const form2Value = input2.replace(/\D/g, "");
-    const form3Value = input3.replace(/\D/g, "");
+    const bsbVal = bsb.replace(/\D/g, "");
+    const aactNumVal = acctNum.replace(/\D/g, "");
+    const chequeVal = cheque.replace(/\D/g, "");
     // Insert into Input Box 1
-    formInputArr[0].value = form1Value;
-    formInputArr[1].value = form2Value;
-    formInputArr[2].value = form3Value;
+    formInputArr[0].value = bsbVal;
+    formInputArr[1].value = aactNumVal;
+    formInputArr[2].value = chequeVal;
   } catch (error) {
     return null;
   }
